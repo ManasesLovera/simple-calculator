@@ -1,75 +1,171 @@
-# React + TypeScript + Vite
+# Simple Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, fully-tested calculator application built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- ✨ **Arithmetic Operations**: Addition, subtraction, multiplication, and division
+- 🎨 **Modern UI**: Clean, responsive design with light/dark mode support
+- 🧪 **Comprehensive Tests**: 31 unit tests covering all operations
+- ⚡ **Fast & Performant**: Built with Vite for instant HMR and optimized builds
+- 🔍 **Type Safe**: Full TypeScript support
+- 🔄 **CI/CD Ready**: GitHub Actions workflow for automated testing
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19.2.7
+- **Language**: TypeScript 6.0.2
+- **Build Tool**: Vite 8.1.0
+- **Testing**: Vitest 4.1.9
+- **Linting**: ESLint 10.5.0
+- **Node**: 20.x, 22.x
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js 20.x or higher
+- npm 10.x or higher
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Start the development server with hot module reloading:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+The app will be available at `http://localhost:5174`
+
+### Build
+
+Create a production-optimized build:
+
+```bash
+npm run build
+```
+
+### Testing
+
+Run all unit tests with Vitest:
+
+```bash
+npm test
+```
+
+Run tests in watch mode:
+
+```bash
+npm test -- --watch
+```
+
+### Linting
+
+Check code quality with ESLint:
+
+```bash
+npm run lint
+```
+
+## Project Structure
+
+```text
+src/
+├── App.tsx                 # Main calculator component
+├── App.css                 # Calculator styles
+├── index.css               # Global styles
+├── main.tsx                # Entry point
+└── utils/
+    ├── calculator.ts       # Calculation logic
+    └── calculator.test.ts  # Unit tests (31 tests)
+.github/
+└── workflows/
+    └── test.yml           # GitHub Actions CI/CD
+```
+
+## Calculator Features
+
+### Supported Operations
+
+- **Addition** (+): Add two numbers
+- **Subtraction** (−): Subtract two numbers
+- **Multiplication** (×): Multiply two numbers
+- **Division** (÷): Divide two numbers
+- **Decimal**: Support for decimal numbers
+- **Clear**: Reset calculator to initial state
+
+### Usage
+
+1. Click number buttons to enter values
+2. Click an operation button (+, −, ×, ÷)
+3. Enter the second number
+4. Click **=** to see the result
+5. Click **AC** to clear and start over
+
+## Testing
+
+The calculator includes comprehensive unit tests covering:
+
+- ✅ All arithmetic operations
+- ✅ Negative number handling
+- ✅ Decimal number support
+- ✅ Edge cases (zero, very small numbers, large numbers)
+- ✅ Invalid operation fallbacks
+
+View test results:
+
+```bash
+npm test -- --reporter=verbose
+```
+
+## CI/CD Pipeline
+
+GitHub Actions automatically:
+
+- Runs all tests on Node 20.x and 22.x
+- Checks code quality with ESLint
+- Validates on push and pull requests
+
+View workflows: [GitHub Actions](https://github.com/ManasesLovera/simple-calculator/actions)
+
+## Design System
+
+The calculator uses a modern color system with CSS custom properties:
+
+- **Primary Accent**: Purple (`#aa3bff` light, `#c084fc` dark)
+- **Light Mode**: Clean white background with subtle borders
+- **Dark Mode**: Modern dark palette with high contrast
+- **Typography**: System fonts with optimized readability
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Commit your changes (`git commit -m 'Add amazing feature'`)
+3. Push to the branch (`git push origin feature/amazing-feature`)
+4. Open a Pull Request
+
+All PRs must:
+
+- Pass all tests
+- Pass linting checks
+- Include updated tests if applicable
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Support
+
+For issues and questions, please open an [issue](https://github.com/ManasesLovera/simple-calculator/issues) on GitHub.
+
+---
+
+Built with ❤️ using React + TypeScript + Vite

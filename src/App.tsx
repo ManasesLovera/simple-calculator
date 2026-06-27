@@ -1,129 +1,47 @@
-import { useState } from 'react'
-import { performCalculation } from './utils/calculator'
-import './App.css'
+import { useReducer } from 'react';
+import type { CalculatorAction, Operator } from './state/types';
+import { calculatorReducer } from './state/calculatorReducer';
+import { initialState } from './state/types';
+import './App.css';
+
+const digit = (value: string): CalculatorAction => ({ type: 'digit', value });
+const op = (o: Operator): CalculatorAction => ({ type: 'operation', op: o });
+const equals: CalculatorAction = { type: 'equals' };
+const clear: CalculatorAction = { type: 'clear' };
+const decimal: CalculatorAction = { type: 'decimal' };
 
 function App() {
-  const [display, setDisplay] = useState('0')
-  const [previousValue, setPreviousValue] = useState<number | null>(null)
-  const [operation, setOperation] = useState<string | null>(null)
-  const [waitingForNewValue, setWaitingForNewValue] = useState(false)
-
-  const handleNumber = (num: string) => {
-    if (waitingForNewValue) {
-      setDisplay(num)
-      setWaitingForNewValue(false)
-    } else {
-      setDisplay(display === '0' ? num : display + num)
-    }
-  }
-
-  const handleOperation = (op: string) => {
-    const currentValue = parseFloat(display)
-
-    if (previousValue === null) {
-      setPreviousValue(currentValue)
-    } else if (operation) {
-      const result = performCalculation(previousValue, currentValue, operation)
-      setDisplay(String(result))
-      setPreviousValue(result)
-    }
-
-    setOperation(op)
-    setWaitingForNewValue(true)
-  }
-
-
-  const handleEquals = () => {
-    if (operation && previousValue !== null) {
-      const result = performCalculation(previousValue, parseFloat(display), operation)
-      setDisplay(String(result))
-      setPreviousValue(null)
-      setOperation(null)
-      setWaitingForNewValue(true)
-    }
-  }
-
-  const handleClear = () => {
-    setDisplay('0')
-    setPreviousValue(null)
-    setOperation(null)
-    setWaitingForNewValue(false)
-  }
-
-  const handleDecimal = () => {
-    if (waitingForNewValue) {
-      setDisplay('0.')
-      setWaitingForNewValue(false)
-    } else if (!display.includes('.')) {
-      setDisplay(display + '.')
-    }
-  }
+  const [state, dispatch] = useReducer(calculatorReducer, initialState);
 
   return (
-    <>
-      <section id="center">
-        <div className="calculator-container">
-          <h1>Calculator</h1>
-          <div className="calculator">
-            <div className="display">{display}</div>
-            <div className="button-grid">
-              <button onClick={handleClear} className="btn btn-special">
-                AC
-              </button>
-              <button onClick={() => handleOperation('/')} className="btn btn-operation">
-                ÷
-              </button>
-              <button onClick={() => handleOperation('*')} className="btn btn-operation">
-                ×
-              </button>
-              <button onClick={() => handleNumber('7')} className="btn">
-                7
-              </button>
-              <button onClick={() => handleNumber('8')} className="btn">
-                8
-              </button>
-              <button onClick={() => handleNumber('9')} className="btn">
-                9
-              </button>
-              <button onClick={() => handleOperation('-')} className="btn btn-operation">
-                −
-              </button>
-              <button onClick={() => handleNumber('4')} className="btn">
-                4
-              </button>
-              <button onClick={() => handleNumber('5')} className="btn">
-                5
-              </button>
-              <button onClick={() => handleNumber('6')} className="btn">
-                6
-              </button>
-              <button onClick={() => handleOperation('+')} className="btn btn-operation">
-                +
-              </button>
-              <button onClick={() => handleNumber('1')} className="btn">
-                1
-              </button>
-              <button onClick={() => handleNumber('2')} className="btn">
-                2
-              </button>
-              <button onClick={() => handleNumber('3')} className="btn">
-                3
-              </button>
-              <button onClick={handleEquals} className="btn btn-equals">
-                =
-              </button>
-              <button onClick={() => handleNumber('0')} className="btn btn-zero">
-                0
-              </button>
-              <button onClick={handleDecimal} className="btn">
-                .
-              </button>
-            </div>
+    <section id="center">
+      <div className="calculator-container">
+        <h1>Calculator</h1>
+        <div className="calculator">
+          <div className="display" data-testid="display" aria-live="polite">{state.display}</div>
+          <div className="button-grid">
+            <button onClick={() => dispatch(clear)} className="btn btn-special" aria-label="All clear">AC</button>
+            <button onClick={() => dispatch(op('/'))} className="btn btn-operation" aria-label="Divide">÷</button>
+            <button onClick={() => dispatch(op('*'))} className="btn btn-operation" aria-label="Multiply">×</button>
+            <button onClick={() => dispatch(digit('7'))} className="btn" aria-label="7">7</button>
+            <button onClick={() => dispatch(digit('8'))} className="btn" aria-label="8">8</button>
+            <button onClick={() => dispatch(digit('9'))} className="btn" aria-label="9">9</button>
+            <button onClick={() => dispatch(op('-'))} className="btn btn-operation" aria-label="Subtract">−</button>
+            <button onClick={() => dispatch(digit('4'))} className="btn" aria-label="4">4</button>
+            <button onClick={() => dispatch(digit('5'))} className="btn" aria-label="5">5</button>
+            <button onClick={() => dispatch(digit('6'))} className="btn" aria-label="6">6</button>
+            <button onClick={() => dispatch(op('+'))} className="btn btn-operation" aria-label="Add">+</button>
+            <button onClick={() => dispatch(digit('1'))} className="btn" aria-label="1">1</button>
+            <button onClick={() => dispatch(digit('2'))} className="btn" aria-label="2">2</button>
+            <button onClick={() => dispatch(digit('3'))} className="btn" aria-label="3">3</button>
+            <button onClick={() => dispatch(equals)} className="btn btn-equals" aria-label="Equals">=</button>
+            <button onClick={() => dispatch(digit('0'))} className="btn btn-zero" aria-label="0">0</button>
+            <button onClick={() => dispatch(decimal)} className="btn" aria-label="Decimal point">.</button>
           </div>
         </div>
-      </section>
-    </>
-  )
+      </div>
+    </section>
+  );
 }
 
-export default App
+export default App;

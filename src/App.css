@@ -85,6 +85,13 @@
   }
 }
 
+.btn--active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  transform: scale(0.96);
+}
+
 .btn-operation {
   color: var(--accent);
   background: var(--accent-bg);

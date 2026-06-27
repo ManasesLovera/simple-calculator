@@ -12,7 +12,8 @@ export type CalculatorAction =
   | { type: 'decimal' }
   | { type: 'operation'; op: Operator }
   | { type: 'equals' }
-  | { type: 'clear' };
+  | { type: 'clear' }
+  | { type: 'backspace' };
 
 export const initialState: CalculatorState = {
   display: '0',

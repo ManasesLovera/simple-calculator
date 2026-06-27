@@ -75,5 +75,15 @@ export function calculatorReducer(
         waitingForNewValue: false,
       };
     }
+
+    case 'backspace': {
+      if (state.waitingForNewValue) {
+        return state;
+      }
+      if (state.display.length <= 1 || (state.display.length === 2 && state.display.startsWith('-'))) {
+        return { ...state, display: '0' };
+      }
+      return { ...state, display: state.display.slice(0, -1) };
+    }
   }
 }

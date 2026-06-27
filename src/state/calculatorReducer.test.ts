@@ -138,6 +138,43 @@ describe('calculatorReducer', () => {
     });
   });
 
+  describe('backspace', () => {
+    it('removes the last digit', () => {
+      const s = reduce(initialState, [digit('1'), digit('2'), digit('3'), { type: 'backspace' }]);
+      expect(s.display).toBe('12');
+    });
+    it('resets to "0" when display becomes empty', () => {
+      const s = reduce(initialState, [digit('5'), { type: 'backspace' }]);
+      expect(s.display).toBe('0');
+    });
+    it('resets to "0" when only a negative sign remains', () => {
+      const s = reduce(initialState, [
+        digit('1'),
+        digit('0'),
+        { type: 'backspace' },
+        { type: 'backspace' },
+        { type: 'backspace' },
+      ]);
+      expect(s.display).toBe('0');
+    });
+    it('is a no-op when waitingForNewValue', () => {
+      const s = reduce(initialState, [digit('5'), op('+'), { type: 'backspace' }]);
+      expect(s.display).toBe('5');
+      expect(s.previousValue).toBe(5);
+      expect(s.operation).toBe('+');
+    });
+    it('preserves decimal point in display', () => {
+      const s = reduce(initialState, [
+        digit('1'),
+        decimal,
+        digit('2'),
+        digit('5'),
+        { type: 'backspace' },
+      ]);
+      expect(s.display).toBe('1.2');
+    });
+  });
+
   describe('integration', () => {
     it('multi-step: 12 + 34 = 46', () => {
       const s = reduce(initialState, [
